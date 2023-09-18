@@ -4,8 +4,8 @@ from project.utils import get_date_formatting, getting_an_invoice, getting_an_ma
 filename = "operations.json"
 
 
-def main():
-    def get_operations(filename_):
+
+def get_operations(filename_):
         """
         функция открывает файл json.
         """
@@ -13,9 +13,9 @@ def main():
             operations = json.load(f)
             return operations
 
-    all_operations = get_operations(filename)
+all_operations = get_operations(filename)
 
-    def get_executed_operations(all_operations_):
+def get_executed_operations(all_operations_):
         """
         функция фильтрует список по EXECUTED.
         """
@@ -27,20 +27,20 @@ def main():
                 list_executed.append(item)
         return list_executed
 
-    filtered_operations = get_executed_operations(all_operations)
+filtered_operations = get_executed_operations(all_operations)
 
-    def sort_by_date(filtered_operations_):
+def sort_by_date(filtered_operations_):
         """
         функция сортирует список по дате.
         """
         return sorted(filtered_operations_, key=lambda operations: operations["date"])[-5:]
 
-    sorted_operations = sort_by_date(filtered_operations)
-    sorted_operations.reverse()
-    date_formatting = get_date_formatting(sorted_operations)
-    map_ = getting_an_map(sorted_operations)
-    invoice = getting_an_invoice(sorted_operations)
-    for i in range(len(date_formatting)):
+sorted_operations = sort_by_date(filtered_operations)
+sorted_operations.reverse()
+date_formatting = get_date_formatting(sorted_operations)
+map_ = getting_an_map(sorted_operations)
+invoice = getting_an_invoice(sorted_operations)
+for i in range(len(date_formatting)):
         operations_description = sorted_operations[i]["description"]
         separating_the_cards = " ".join(map_[i])
         separating_account = " ".join(invoice[i])
@@ -51,4 +51,3 @@ def main():
         print(f"{operations_amount} {operations_name}\n")
 
 
-main()
